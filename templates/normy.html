@@ -1,7 +1,46 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Weryfikacja zgodności z normami</h2>
-<p>Podsumowanie zgodności parametrów AGV z wybranymi normami (np. IEC 62864-1): sprawność, pobór mocy, czas reakcji itp.</p>
-<div id="norms-table"></div>
-<!-- Miejsce na tabele porównawcze i podsumowania -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Parametr</th>
+            <th>Wartość</th>
+            <th>Norma</th>
+            <th>Zgodność</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Średnia moc</td>
+            <td>{{ params.avg_power|round(2) }} W</td>
+            <td>&gt; 0.8 W</td>
+            <td>
+                {% if params.efficiency_ok %}<span class="badge bg-success">TAK</span>
+                {% else %}<span class="badge bg-danger">NIE</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Pobór mocy w trybie postojowym</td>
+            <td>{{ params.standby_power|round(2) }} W</td>
+            <td>&lt; 25 W</td>
+            <td>
+                {% if params.standby_ok %}<span class="badge bg-success">TAK</span>
+                {% else %}<span class="badge bg-danger">NIE</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Czas reakcji układu</td>
+            <td>{{ params.reaction_time|round(2) }} s</td>
+            <td>&lt; 0.5 s</td>
+            <td>
+                {% if params.reaction_ok %}<span class="badge bg-success">TAK</span>
+                {% else %}<span class="badge bg-danger">NIE</span>
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}

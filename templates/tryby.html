@@ -1,7 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Porównanie trybów pracy</h2>
-<p>W tej sekcji porównasz zużycie energii i sprawność w różnych manewrach: jazda prosto, zakręt, przyspieszenie, hamowanie, postój.</p>
+<p>Średnie chwilowe zużycie energii w różnych trybach:</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tryb</th>
+            <th>Średnie zużycie energii [mWh]</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mode, energy in avg_energies.items() %}
+        <tr>
+            <td>{{ mode }}</td>
+            <td>{{ energy|round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 <div id="modes-chart"></div>
-<!-- Miejsce na wykresy słupkowe, tabele porównawcze -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graph = {{ plotly_json | safe }};
+    Plotly.newPlot('modes-chart', graph.data, graph.layout);
+</script>
 {% endblock %}

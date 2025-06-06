@@ -1,8 +1,8 @@
+import os
 from flask import Flask, render_template
 import plotly
 import json
 
-# Import analiz
 from analysis.efektywnosc import analyze_efektywnosc
 from analysis.tryby import analyze_tryby
 from analysis.optymalizacja import analyze_optymalizacja
@@ -10,6 +10,8 @@ from analysis.bateria import analyze_bateria
 from analysis.normy import analyze_normy
 
 app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
 
 @app.route('/')
 def dashboard():
@@ -17,7 +19,7 @@ def dashboard():
 
 @app.route('/efektywnosc')
 def efektywnosc():
-    result = analyze_efektywnosc()
+    result = analyze_efektywnosc(DATA_DIR)
     plotly_json = json.dumps(result['fig'], cls=plotly.utils.PlotlyJSONEncoder)
     return render_template(
         'efektywnosc.html',
@@ -28,7 +30,7 @@ def efektywnosc():
 
 @app.route('/tryby')
 def tryby():
-    result = analyze_tryby()
+    result = analyze_tryby(DATA_DIR)
     plotly_json = json.dumps(result['fig'], cls=plotly.utils.PlotlyJSONEncoder)
     return render_template(
         'tryby.html',
@@ -38,7 +40,7 @@ def tryby():
 
 @app.route('/optymalizacja')
 def optymalizacja():
-    result = analyze_optymalizacja()
+    result = analyze_optymalizacja(DATA_DIR)
     plotly_json = json.dumps(result['fig'], cls=plotly.utils.PlotlyJSONEncoder)
     return render_template(
         'optymalizacja.html',
@@ -49,7 +51,7 @@ def optymalizacja():
 
 @app.route('/bateria')
 def bateria():
-    result = analyze_bateria()
+    result = analyze_bateria(DATA_DIR)
     fig_voltage_json = json.dumps(result['fig_voltage'], cls=plotly.utils.PlotlyJSONEncoder)
     fig_soc_json = json.dumps(result['fig_soc'], cls=plotly.utils.PlotlyJSONEncoder) if result['fig_soc'] else None
     return render_template(
@@ -62,7 +64,7 @@ def bateria():
 
 @app.route('/normy')
 def normy():
-    params = analyze_normy()
+    params = analyze_normy(DATA_DIR)
     return render_template(
         'normy.html',
         params=params

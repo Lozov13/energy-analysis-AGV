@@ -2,25 +2,20 @@ import pandas as pd
 import os
 import plotly.express as px
 
-def get_data_dir():
-    # Pobierz absolutną ścieżkę do katalogu głównego projektu (tam gdzie app.py)
-    return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-
-def analyze_bateria():
-    # Analiza na podstawie jazdy prosto (lub innego pliku z dłuższego cyklu)
-    data_dir = get_data_dir()
+def analyze_bateria(data_dir):
     df = pd.read_csv(os.path.join(data_dir, 'jazda_prosto.txt'))
-    df['Time stamp'] = pd.to_datetime(df['Time stamp'])
-    # Trend napięcia baterii
-    fig_voltage = px.line(df, x='Time stamp', y='Battery cell voltage mV', title='Napięcie ogniwa w czasie')
-    # Trend SoC (jeśli masz taką kolumnę)
-    soc_col = [col for col in df.columns if 'SoC' in col or 'state of charge' in col.lower()]
+    time_col = [col for col in df.columns if 'time' in col.lower()][0]
+    voltage_col = [col for col in df.columns if 'battery cell voltage' in col.lower()][0]
+    soc_col = [col for col in df.columns if 'state of charge' in col.lower() or 'soc' in col.lower()]
+    df[time_col] = pd.to_datetime(df[time_col])
+
+    fig_voltage = px.line(df, x=time_col, y=voltage_col, title='Napięcie ogniwa w czasie')
+    avg_voltage = df[voltage_col].mean()
+    min_voltage = df[voltage_col].min()
+
     fig_soc = None
     if soc_col:
-        fig_soc = px.line(df, x='Time stamp', y=soc_col[0], title='Stan naładowania baterii (SoC) w czasie')
-    # Średnie i minimalne wartości
-    avg_voltage = df['Battery cell voltage mV'].mean()
-    min_voltage = df['Battery cell voltage mV'].min()
+        fig_soc = px.line(df, x=time_col, y=soc_col[0], title='Stan naładowania baterii (SoC) w czasie')
     return {
         "avg_voltage": avg_voltage,
         "min_voltage": min_voltage,

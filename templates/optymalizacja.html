@@ -1,7 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
 <h2>Optymalizacja profilu jazdy</h2>
-<p>Prezentacja propozycji optymalizacji tras, analizy faz przyspieszenia/hamowania, oraz symulacji wpływu zmian profilu jazdy na zużycie energii.</p>
+<p>Średnie chwilowe zużycie energii podczas przyspieszania: <strong>{{ avg_acc|round(2) }} mWh</strong></p>
+<p>Średnie chwilowe zużycie energii podczas jazdy ze stałą prędkością: <strong>{{ avg_cruise|round(2) }} mWh</strong></p>
 <div id="optimization-chart"></div>
-<!-- Miejsce na interaktywne wykresy, np. symulacje -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graph = {{ plotly_json | safe }};
+    Plotly.newPlot('optimization-chart', graph.data, graph.layout);
+</script>
 {% endblock %}
