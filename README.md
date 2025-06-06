@@ -84,7 +84,7 @@ Pliki w folderze `data/` to CSV/TXT z nagłówkami, np.:
 
 ---
 
-## 👤 Autor
+## 👤 Autorzy
 
 - Łoziński Wojciech
 - Górka Oskar
