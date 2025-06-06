@@ -1,0 +1,38 @@
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #222;
+}
+
+h1, h2, h3 {
+    color: #0d6efd;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.navbar {
+    margin-bottom: 2rem;
+}
+
+.container {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem 2.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.table {
+    margin-top: 1.5rem;
+    background: #fff;
+}
+
+.btn-primary, .btn-secondary {
+    border-radius: 20px;
+    padding: 0.4rem 1.2rem;
+}
+
+#energy-chart, #modes-chart, #optimization-chart, #battery-chart, #norms-table {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}

@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Analiza efektywności energetycznej</h2>
+<p>Tutaj możesz umieścić wykresy i tabele dotyczące zużycia energii na jednostkę drogi, mocy chwilowej, sprawności układu itp.</p>
+<div id="energy-chart"></div>
+<!-- Przykładowe miejsce na wykres Plotly -->
+<!--
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var data = {{ plotly_json | safe }};
+    Plotly.newPlot('energy-chart', data.data, data.layout);
+</script>
+-->
+{% endblock %}
